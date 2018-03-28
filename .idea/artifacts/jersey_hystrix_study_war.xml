@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="jersey-hystrix-study:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="jersey-hystrix-study.war">
+      <element id="artifact" artifact-name="jersey-hystrix-study:war exploded" />
+    </root>
+  </artifact>
+</component>
