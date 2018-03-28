@@ -20,8 +20,7 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        HelloWorldCommand helloWorldCommand = new HelloWorldCommand("Boo");
-        return "Got it!" + helloWorldCommand.execute();
+        return "Got it!";
     }
 }
 
