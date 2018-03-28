@@ -32,6 +32,6 @@ public class CommandHelloWorld extends HystrixCommand<String> {
 
     @Override
     protected String getFallback() {
-        return "Unable to reach resource at this time";
+        return "Unable to reach Command HelloWorld";
     }
 }

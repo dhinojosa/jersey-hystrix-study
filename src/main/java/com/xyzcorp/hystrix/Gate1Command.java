@@ -16,4 +16,9 @@ public class Gate1Command extends HystrixCommand<String> {
     protected String run() throws Exception {
         return next.execute();
     }
+
+    @Override
+    protected String getFallback() {
+        return "Unable to reach Gate1";
+    }
 }
