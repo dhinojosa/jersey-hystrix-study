@@ -1,5 +1,7 @@
 package com.xyzcorp.jersey;
 
+import com.xyzcorp.hystrix.CommandHelloWorld;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,7 +22,10 @@ public class MyResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
-        return "Got it!";
+        CommandHelloWorld commandHelloWorld =
+                new CommandHelloWorld("Danno");
+        String result = commandHelloWorld.execute();
+        return "Got it! Your name is " + result;
     }
 }
 
