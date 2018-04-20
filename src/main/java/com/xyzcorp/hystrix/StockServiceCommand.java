@@ -3,8 +3,10 @@ package com.xyzcorp.hystrix;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixObservableCommand;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
-public class StockServiceCommand extends HystrixObservableCommand<Pair<String, Long>> {
+public class StockServiceCommand extends
+                                 HystrixObservableCommand<Pair<String, Long>> {
 
     private String name;
 
@@ -28,11 +30,18 @@ public class StockServiceCommand extends HystrixObservableCommand<Pair<String, L
     protected Observable<Pair<String, Long>> construct() {
         StockPricesCommand stockPricesCommand = new StockPricesCommand(name);
         Observable<String> stringObservable = stockPricesCommand.observe();
-        Observable<Long> averageObservable = stringObservable
-            .flatMap(b ->
-                getAverageVolume(Observable.from(b.split
-                    ("\n")).skip(8)));
+        Observable<Long> averageObservable =
+            stringObservable
+                .observeOn(Schedulers.computation())
+                .flatMap(b ->
+                    getAverageVolume(Observable.from(b.split
+                        ("\n")).skip(8)));
 
         return averageObservable.map(a -> new Pair<>(name, a));
+    }
+
+    @Override
+    protected Observable<Pair<String, Long>> resumeWithFallback() {
+        return Observable.just(new Pair<>("Unknown", 0L));
     }
 }
